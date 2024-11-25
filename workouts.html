@@ -10,18 +10,57 @@
 </head>
 
 <body>
-    <header>
-        <h1>Your Workouts</h1>
-    </header>
+  <header>
+    <h1>Your Workouts</h1>
+  </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="workouts.html" class="active">My Workouts</a></li>
-            <li><a href="progress.html">Progress</a></li>
-            <li><a href="friends.html">Friends</a></li>
-            <li><a href="exercises.html">Exercises</a></li>
-            <li><a href="#">Settings</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="workouts.html" class="active">My Workouts</a></li>
+      <li><a href="progress.html">Progress</a></li>
+      <li><a href="friends.html">Friends</a></li>
+      <li><a href="exercises.html">Exercises</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Create a New Workout</h2>
+      <form action="#" method="post">
+        <label for="workout-name">Workout Name:</label>
+        <input type="text" id="workout-name" name="workout-name" required>
+        <br>
+        <label for="exercise">Add Exercise:</label>
+        <input type="text" id="exercise" name="exercise" required>
+        <br>
+        <button type="submit">Create Workout</button>
+      </form>
+    </section>
+    
+    <section>
+      <h2>Your Workouts</h2>
+      <ul class="workout-list">
+        <li>
+          <h3>Chest Day</h3>
+          <p>Includes Bench Press, Incline Dumbbell Press, and Cable Flyes.</p>
+          <a class="button" href="#">View Workout</a>
+        </li>
+        <li>
+          <h3>Leg Day</h3>
+          <p>Includes Squats, Leg Press, and Hamstring Curls.</p>
+          <a class="button" href="#">View Workout</a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Weightlifting Workout Tracker</p>
+  </footer>
+    
+  <script type="module" src="js/main.js"></script>
 </body>
+
+</html>
