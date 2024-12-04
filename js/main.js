@@ -1,151 +1,161 @@
+// workouts.js
+
 document.addEventListener("DOMContentLoaded", function () {
-  // Load Workouts button
-  const loadWorkoutsButton = document.getElementById('load-workouts');
-  loadWorkoutsButton.addEventListener('click', loadWorkouts);
+  const apiBaseUrl = 'https://tb63oflrmc.execute-api.us-east-2.amazonaws.com'; 
 
-  // Toggle Table button
-  const toggleTableButton = document.getElementById('toggle-table');
-  toggleTableButton.addEventListener('click', function () {
-      const workoutTable = document.getElementById('workout-table');
-      if (workoutTable.style.display === 'none') {
-          workoutTable.style.display = 'table';
-          toggleTableButton.textContent = 'Hide Table';
+  // Elements for Workout Plans
+  const addPlanButton = document.getElementById('add-plan');
+  const planNameInput = document.getElementById('plan-name');
+  const plansUl = document.getElementById('plans-ul');
+  
+  // Elements for Exercises
+  const addExerciseSection = document.getElementById('add-exercise');
+  const selectedPlanNameSpan = document.getElementById('selected-plan-name');
+  const selectedPlanNameSpan2 = document.getElementById('selected-plan-name-2');
+  const exerciseNameInput = document.getElementById('exercise-name');
+  const exerciseWeightInput = document.getElementById('exercise-weight');
+  const exerciseRepsInput = document.getElementById('exercise-reps');
+  const exerciseNotesInput = document.getElementById('exercise-notes');
+  const addExerciseButton = document.getElementById('add-exercise-button');
+  const exercisesTableBody = document.getElementById('exercises-table-body');
+  const exercisesListSection = document.getElementById('exercises-list');
+  
+  let selectedPlanId = null;
+  
+  // Event Listeners
+  addPlanButton.addEventListener('click', addWorkoutPlan);
+  addExerciseButton.addEventListener('click', addExerciseToPlan);
+
+  // Load workout plans on page load
+  loadWorkoutPlans();
+
+  // Function to load workout plans
+  function loadWorkoutPlans() {
+    fetch(`${apiBaseUrl}/plans`)
+      .then(response => response.json())
+      .then(data => {
+        plansUl.innerHTML = '';
+        data.forEach(plan => {
+          const li = document.createElement('li');
+          li.textContent = plan.name;
+          li.dataset.planId = plan.PK.replace('PLAN#', '');
+          li.addEventListener('click', () => selectPlan(li.dataset.planId, plan.name));
+          plansUl.appendChild(li);
+        });
+      })
+      .catch(error => console.error('Error fetching plans:', error));
+  }
+  
+  // Function to add a new workout plan
+  function addWorkoutPlan() {
+    const planName = planNameInput.value.trim();
+    if (!planName) {
+      alert('Plan name is required.');
+      return;
+    }
+    const planId = generateUniqueId();
+    const newPlan = {
+      planId: planId,
+      name: planName
+    };
+    fetch(`${apiBaseUrl}/plans`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newPlan)
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Plan added successfully');
+        planNameInput.value = '';
+        loadWorkoutPlans();
       } else {
-          workoutTable.style.display = 'none';
-          toggleTableButton.textContent = 'Show Table';
+        return response.text().then(text => {
+          throw new Error(`Error adding plan: ${text}`);
+        });
       }
-  });
-
-  // Add Workout button
-  const addWorkoutButton = document.getElementById('add-workout');
-  addWorkoutButton.addEventListener('click', addWorkout);
-
-  loadWorkouts(); // Load workouts on page load
-
-  // Load Workouts Function
-  function loadWorkouts() {
-      fetch("https://tb63oflrmc.execute-api.us-east-2.amazonaws.com/workouts")
-          .then(response => response.json())
-          .then(data => {
-              const table = document.getElementById('workout-table');
-              const tableBody = document.getElementById('table-body');
-              const toggleTableButton = document.getElementById('toggle-table');
-              tableBody.innerHTML = '';
-
-              if (data.length > 0) {
-                  // Show the table and toggle button
-                  table.style.display = 'table';
-                  toggleTableButton.style.display = 'inline-block';
-                  toggleTableButton.textContent = 'Hide Table';
-
-                  data.forEach(workout => {
-                      const tr = document.createElement('tr');
-                      tr.innerHTML = `
-                          <td>${workout.date}</td>
-                          <td>${workout.exercise}</td>
-                          <td>${workout.weight}</td>
-                          <td>${workout.reps}</td>
-                          <td>${workout.notes}</td>
-                          <td><button class="delete-btn" data-id="${workout.id}">Delete</button></td>
-                      `;
-                      tableBody.appendChild(tr);
-                  });
-
-                  // Add event listeners to the new Delete buttons
-                  const deleteButtons = document.querySelectorAll('.delete-btn');
-                  deleteButtons.forEach(button => {
-                      button.addEventListener('click', () => deleteWorkout(button.dataset.id));
-                  });
-
-              } else {
-                  // Hide the table and toggle button if no workouts
-                  table.style.display = 'none';
-                  toggleTableButton.style.display = 'none';
-              }
-          })
-          .catch(error => console.error('Error fetching data:', error));
+    })
+    .catch(error => console.error('Error:', error));
+  }
+  
+  // Function to select a workout plan
+  function selectPlan(planId, planName) {
+    selectedPlanId = planId;
+    selectedPlanNameSpan.textContent = planName;
+    selectedPlanNameSpan2.textContent = planName;
+    addExerciseSection.style.display = 'block';
+    exercisesListSection.style.display = 'block';
+    loadExercisesForPlan(planId);
   }
 
-  // Delete Workout Function
-  function deleteWorkout(id) {
-      fetch(`https://tb63oflrmc.execute-api.us-east-2.amazonaws.com/workouts/${id}`, {
-          method: 'DELETE',
-      })
-      .then(response => {
-          if (response.ok) {
-              console.log(`Workout with ID ${id} deleted successfully`);
-              loadWorkouts(); // Reload workouts
-          } else {
-              console.error('Error deleting workout:', response.statusText);
-          }
-      })
-      .catch(error => console.error('Error deleting workout:', error));
+  // Function to add an exercise to the selected plan
+  function addExerciseToPlan() {
+    const exerciseName = exerciseNameInput.value.trim();
+    const weight = exerciseWeightInput.value.trim();
+    const reps = exerciseRepsInput.value.trim();
+    const notes = exerciseNotesInput.value.trim();
+
+    if (!exerciseName || !weight || !reps) {
+      alert('Exercise Name, Weight, and Reps are required.');
+      return;
+    }
+
+    const exerciseId = generateUniqueId();
+    const newExercise = {
+      exerciseId: exerciseId,
+      name: exerciseName,
+      weight: parseFloat(weight),
+      reps: parseInt(reps, 10),
+      notes: notes
+    };
+
+    fetch(`${apiBaseUrl}/plans/${selectedPlanId}/exercises`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newExercise)
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Exercise added successfully');
+        exerciseNameInput.value = '';
+        exerciseWeightInput.value = '';
+        exerciseRepsInput.value = '';
+        exerciseNotesInput.value = '';
+        loadExercisesForPlan(selectedPlanId);
+      } else {
+        return response.text().then(text => {
+          throw new Error(`Error adding exercise: ${text}`);
+        });
+      }
+    })
+    .catch(error => console.error('Error:', error));
   }
 
-  // Add Workout Function
-  function addWorkout() {
-      const date = document.getElementById('date').value.trim();
-      const exercise = document.getElementById('exercise').value.trim();
-      const weight = document.getElementById('weight').value.trim();
-      const reps = document.getElementById('reps').value.trim();
-      const notes = document.getElementById('notes').value.trim();
-
-      // Input validation
-      if (!date || !exercise || !weight || !reps) {
-          alert('Date, Exercise, Weight, and Repetitions are required.');
-          return;
-      }
-
-      // Generate a unique ID for the workout
-      const id = generateUniqueId();
-
-      // Create new workout object
-      const newWorkout = {
-          id: id,
-          date: date,
-          exercise: sanitizeInput(exercise),
-          weight: parseFloat(weight),
-          reps: parseInt(reps, 10),
-          notes: sanitizeInput(notes)
-      };
-
-      // Send new workout to the server
-      fetch('https://tb63oflrmc.execute-api.us-east-2.amazonaws.com/workouts', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newWorkout)
+  // Function to load exercises for a selected plan
+  function loadExercisesForPlan(planId) {
+    fetch(`${apiBaseUrl}/plans/${planId}/exercises`)
+      .then(response => response.json())
+      .then(data => {
+        exercisesTableBody.innerHTML = '';
+        data.forEach(exercise => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${exercise.name}</td>
+            <td>${exercise.weight}</td>
+            <td>${exercise.reps}</td>
+            <td>${exercise.notes}</td>
+          `;
+          exercisesTableBody.appendChild(tr);
+        });
       })
-      .then(response => {
-          if (response.ok) {
-              console.log('Workout added successfully');
-              loadWorkouts(); // Reload the workouts after adding a new one
-
-              // Clear the input fields
-              document.getElementById('date').value = '';
-              document.getElementById('exercise').value = '';
-              document.getElementById('weight').value = '';
-              document.getElementById('reps').value = '';
-              document.getElementById('notes').value = '';
-          } else {
-              return response.text().then(text => {
-                  throw new Error(`Error adding workout: ${text}`);
-              });
-          }
-      })
-      .catch(error => console.error('Error:', error));
+      .catch(error => console.error('Error fetching exercises:', error));
   }
 
   // Function to generate a unique ID
   function generateUniqueId() {
-      return Date.now().toString() + Math.floor(Math.random() * 1000).toString();
-  }
-
-  // Input Sanitization Function
-  function sanitizeInput(input) {
-      const tempElement = document.createElement('div');
-      tempElement.textContent = input;
-      return tempElement.innerHTML;
+    return Date.now().toString() + Math.floor(Math.random() * 1000).toString();
   }
 });

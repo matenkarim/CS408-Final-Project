@@ -26,36 +26,54 @@
 
     <main>
         <div class="container">
-            <button id="load-workouts">Load Workouts</button>
-            <button id="toggle-table" style="display: none;">Hide Table</button>
-
-            <table id="workout-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Exercise</th>
-                        <th>Weight (lbs)</th>
-                        <th>Reps</th>
-                        <th>Notes</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    <!-- Workouts will be loaded here -->
-                </tbody>
-            </table>
+            <!-- Section to Create a New Workout Plan -->
+            <section id="create-plan">
+                <h2>Create a New Workout Plan</h2>
+                <input type="text" id="plan-name" placeholder="Plan Name" required>
+                <button id="add-plan">Add Plan</button>
+            </section>
 
             <hr>
 
-            <div id="new-workout">
-                <h2>Log a New Workout</h2>
-                <input type="date" id="date" required>
-                <input type="text" id="exercise" placeholder="Exercise Name" required>
-                <input type="number" id="weight" placeholder="Weight (lbs)" min="0" required>
-                <input type="number" id="reps" placeholder="Repetitions" min="0" required>
-                <textarea id="notes" placeholder="Notes"></textarea>
-                <button id="add-workout">Add Workout</button>
-            </div>
+            <!-- List of Workout Plans -->
+            <section id="plans-list">
+                <h2>Your Workout Plans</h2>
+                <ul id="plans-ul">
+                    <!-- Workout plans will be listed here -->
+                </ul>
+            </section>
+
+            <hr>
+
+            <!-- Section to Add Exercises to a Selected Plan -->
+            <section id="add-exercise" style="display: none;">
+                <h2>Add Exercises to <span id="selected-plan-name"></span></h2>
+                <input type="text" id="exercise-name" placeholder="Exercise Name" required>
+                <input type="number" id="exercise-weight" placeholder="Weight (lbs)" min="0" required>
+                <input type="number" id="exercise-reps" placeholder="Repetitions" min="0" required>
+                <textarea id="exercise-notes" placeholder="Notes"></textarea>
+                <button id="add-exercise-button">Add Exercise</button>
+            </section>
+
+            <hr>
+
+            <!-- List of Exercises for the Selected Plan -->
+            <section id="exercises-list" style="display: none;">
+                <h2>Exercises for <span id="selected-plan-name-2"></span></h2>
+                <table id="exercises-table">
+                    <thead>
+                        <tr>
+                            <th>Exercise</th>
+                            <th>Weight (lbs)</th>
+                            <th>Reps</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exercises-table-body">
+                        <!-- Exercises will be loaded here -->
+                    </tbody>
+                </table>
+            </section>
         </div>
     </main>
 
