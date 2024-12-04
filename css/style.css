@@ -48,6 +48,53 @@ nav ul li a:hover {
   background-color: #575757;
 }
 
+#plans-ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#plans-ul li {
+  margin-bottom: 8px;
+}
+
+#plans-ul li button:first-child {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  margin: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#plans-ul li button:first-child:hover {
+  background-color: #45a049;
+}
+
+.delete-plan-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 8px;
+  margin: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-plan-btn:hover {
+  background-color: #da190b;
+}
+
+.delete-exercise-btn {
+  background-color: #f44336;
+  padding: 4px 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-exercise-btn:hover {
+  background-color: #da190b;
+}
+
 main {
   padding: 20px;
 }

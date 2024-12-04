@@ -161,18 +161,25 @@ document.addEventListener("DOMContentLoaded", function () {
             <td>${exercise.weight}</td>
             <td>${exercise.reps}</td>
             <td>${exercise.notes}</td>
+            <td><button class="delete-exercise-btn">Delete</button></td>
           `;
 
-          const deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.classList.add('delete-exercise-btn');
-          deleteButton.addEventListener('click', () => deleteExercise(planId, exercise.PK.replace('EXERCISE#', '')));
+          const deleteButton = tr.querySelector('.delete-exercise-btn');
+          deleteButton.addEventListener('click', () => {
+            const exerciseId = exercise.PK.replace('EXERCISE#', '');
+            deleteExercise(planId, exerciseId);
+          });
 
-          const deleteCell = document.createElement('td');
-          deleteCell.appendChild(deleteButton);
+        //   const deleteButton = document.createElement('button');
+        //   deleteButton.textContent = 'Delete';
+        //   deleteButton.classList.add('delete-exercise-btn');
+        //   deleteButton.addEventListener('click', () => deleteExercise(planId, exercise.PK.replace('EXERCISE#', '')));
 
-          tr.appendChild(deleteCell);
-          
+        //   const deleteCell = document.createElement('td');
+        //   deleteCell.appendChild(deleteButton);
+
+        //   tr.appendChild(deleteCell);
+
           exercisesTableBody.appendChild(tr);
         });
       })
@@ -203,6 +210,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch(error => console.error('Error deleting plan:', error));
+    }
+  }
+
+  function deleteExercise(planId, exerciseId) {
+    if (confirm('Are you sure you want to delete this exercise?')) {
+      fetch(`${apiBaseUrl}/plans/${planId}/exercises/${exerciseId}`, {
+        method: 'DELETE',
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log(`Exercise ${exerciseId} deleted successfully`);
+          loadExercisesForPlan(planId);
+        } else {
+          return response.text().then(text => {
+            throw new Error(`Error deleting exercise: ${text}`);
+          });
+        }
+      })
+      .catch(error => console.error('Error deleting exercise:', error));
     }
   }
 
