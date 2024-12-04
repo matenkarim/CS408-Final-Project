@@ -1,74 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-US">
 
 <head>
-  <meta charset="utf-8">
-  <title>Workouts - Weightlifting Workout Tracker</title>
-  <meta name="description" content="Log and view your workouts.">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8">
+    <title>Workouts - Weightlifting Workout Tracker</title>
+    <meta name="description" content="Log and view your workouts.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <header>
-    <h1>Your Workouts</h1>
-  </header>
+    <header>
+        <h1>Your Workouts</h1>
+    </header>
 
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="workouts.html" class="active">Workouts</a></li>
-      <li><a href="progress.html">Progress</a></li>
-      <li><a href="exercises.html">Exercises</a></li>
-    </ul>
-  </nav>
+    <nav>
+        <!-- Navigation menu -->
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="workouts.html" class="active">Workouts</a></li>
+            <li><a href="progress.html">Progress</a></li>
+            <li><a href="exercises.html">Exercises</a></li>
+        </ul>
+    </nav>
 
-  <main>
-    <section>
-      <h2>Log a New Workout</h2>
-      <form id="workout-form">
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required>
+    <main>
+        <div class="container">
+            <button id="load-workouts">Load Workouts</button>
+            <button id="toggle-table" style="display: none;">Hide Table</button>
 
-        <label for="exercise">Exercise Name:</label>
-        <input type="text" id="exercise" name="exercise" required>
+            <table id="workout-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Exercise</th>
+                        <th>Weight (lbs)</th>
+                        <th>Reps</th>
+                        <th>Notes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Workouts will be loaded here -->
+                </tbody>
+            </table>
 
-        <label for="weight">Weight (lbs):</label>
-        <input type="number" id="weight" name="weight" required min="0">
+            <hr>
 
-        <label for="reps">Repetitions:</label>
-        <input type="number" id="reps" name="reps" required min="0">
-
-        <label for="notes">Notes:</label>
-        <textarea id="notes" name="notes"></textarea>
-
-        <button type="submit">Submit Workout</button>
-      </form>
-    </section>
-
-    <section>
-      <h2>Your Logged Workouts</h2>
-      <!-- Workouts will be dynamically loaded here -->
-      <div id="workouts-list">
-        <!-- Example of a workout entry -->
-        <div class="workout-entry">
-          <p><strong>Date:</strong> 2023-10-01</p>
-          <p><strong>Exercise:</strong> Bench Press</p>
-          <p><strong>Weight:</strong> 150 lbs</p>
-          <p><strong>Reps:</strong> 10</p>
-          <p><strong>Notes:</strong> Felt strong today.</p>
-          <button class="delete-button" data-id="workout_id">Delete</button>
+            <div id="new-workout">
+                <h2>Log a New Workout</h2>
+                <input type="date" id="date" required>
+                <input type="text" id="exercise" placeholder="Exercise Name" required>
+                <input type="number" id="weight" placeholder="Weight (lbs)" min="0" required>
+                <input type="number" id="reps" placeholder="Repetitions" min="0" required>
+                <textarea id="notes" placeholder="Notes"></textarea>
+                <button id="add-workout">Add Workout</button>
+            </div>
         </div>
+    </main>
 
-      </div>
-    </section>
-  </main>
+    <footer>
+        <!-- Footer content -->
+        <p>&copy; 2023 Weightlifting Workout Tracker</p>
+    </footer>
 
-  <footer>
-    <p>&copy; 2023 Weightlifting Workout Tracker</p>
-  </footer>
-
-  <script type="module" src="js/workouts.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
