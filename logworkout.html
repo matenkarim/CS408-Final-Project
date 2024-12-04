@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8">
+  <title>Log Workout - Weightlifting Workout Tracker</title>
+  <meta name="description" content="Log your workout sessions.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Log Your Workout</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="workouts.html">Workouts</a></li>
+      <li><a href="progress.html">Progress</a></li>
+      <li><a href="exercises.html">Exercises</a></li>
+      <li><a href="logworkout.html" class="active">Log Workout</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="container">
+      <section id="log-workout-section">
+        <h2>Log a Workout Session</h2>
+        <label for="workout-plan-select">Select Workout Plan:</label>
+        <select id="workout-plan-select">
+          <option value="">Select Plan</option>
+        </select>
+
+        <label for="workout-date">Date:</label>
+        <input type="date" id="workout-date" required>
+
+        <button id="log-workout-button">Log Workout</button>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Weightlifting Workout Tracker</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

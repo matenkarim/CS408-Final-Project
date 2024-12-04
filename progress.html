@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="utf-8">
-  <title>My Workouts - Weightlifting Workout Tracker</title>
-  <meta name="description" content="">
+  <title>Progress - Weightlifting Workout Tracker</title>
+  <meta name="description" content="View your workout progress.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -15,44 +15,44 @@
   </header>
 
   <nav>
+    <!-- Navigation menu -->
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="workouts.html">My Workouts</a></li>
+      <li><a href="workouts.html">Workouts</a></li>
       <li><a href="progress.html" class="active">Progress</a></li>
       <li><a href="exercises.html">Exercises</a></li>
+      <li><a href="logworkout.html">Log Workout</a></li>
     </ul>
   </nav>
 
   <main>
-    <section>
-      <h2>Progress Overview</h2>
-      <p>Here you can see your overall progress across all workouts.</p>
-      <canvas id="progress-chart" aria-label="Workout Progress Chart" role="img"></canvas> <!-- need to implement -->
-    </section>
+    <div class="container">
+      <!-- Progress Chart Section -->
+      <section id="progress-chart-section">
+        <h2>Progress Chart</h2>
+        <label for="workout-plan-select">Select Workout Plan:</label>
+        <select id="workout-plan-select">
+          <option value="">Select Plan</option>
+        </select>
 
-    <section>
-      <h2>Workout Progress</h2>
-      <ul class="progress-list">
-        <li>
-          <h3>Bench Press</h3>
-          <p>Increased from 100 lbs to 150 lbs over 3 months.</p>
-          <a class="button" href="#">View Details</a>
-        </li>
-        <li>
-          <h3>Squats</h3>
-          <p>Increased from 120 lbs to 180 lbs over 2 months.</p>
-          <a class="button" href="#">View Details</a>
-        </li>
-      </ul>
-    </section>
+        <label for="exercise-select">Select Exercise:</label>
+        <select id="exercise-select">
+          <option value="">Select Exercise</option>
+        </select>
+
+        <canvas id="progress-chart" aria-label="Workout Progress Chart" role="img"></canvas>
+      </section>
+    </div>
   </main>
 
-    <footer>
-      <p>&copy; 2023 Weightlifting Workout Tracker</p>
-    </footer>
+  <footer>
+    <!-- Footer content -->
+    <p>&copy; 2023 Weightlifting Workout Tracker</p>
+  </footer>
 
-  
-  <script type="module" src="js/main.js"></script>
+  <!-- Load Chart.js before main.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>
