@@ -1,5 +1,3 @@
-// workouts.js
-
 document.addEventListener("DOMContentLoaded", function () {
   const apiBaseUrl = 'https://tb63oflrmc.execute-api.us-east-2.amazonaws.com'; 
 
@@ -37,9 +35,25 @@ document.addEventListener("DOMContentLoaded", function () {
         plansUl.innerHTML = '';
         data.forEach(plan => {
           const li = document.createElement('li');
-          li.textContent = plan.name;
-          li.dataset.planId = plan.PK.replace('PLAN#', '');
-          li.addEventListener('click', () => selectPlan(li.dataset.planId, plan.name));
+
+          const planButton = document.createElement('button');
+          planButton.textContent = plan.name;
+          planButton.addEventListener('click', () => selectPlan(plan.PK.replace('PLAN#', ''), plan.name));
+
+          const deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Delete';
+          deleteButton.classList.add('delete-plan-btn');
+          deleteButton.addEventListener('click', (event) => {
+            event.stopPropagation(); 
+            deletePlan(plan.PK.replace('PLAN#', ''));
+          });
+          
+          li.appendChild(planButton);
+          li.appendChild(deleteButton);
+
+        //   li.textContent = plan.name;
+        //   li.dataset.planId = plan.PK.replace('PLAN#', '');
+        //   li.addEventListener('click', () => selectPlan(li.dataset.planId, plan.name));
           plansUl.appendChild(li);
         });
       })
@@ -148,10 +162,48 @@ document.addEventListener("DOMContentLoaded", function () {
             <td>${exercise.reps}</td>
             <td>${exercise.notes}</td>
           `;
+
+          const deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Delete';
+          deleteButton.classList.add('delete-exercise-btn');
+          deleteButton.addEventListener('click', () => deleteExercise(planId, exercise.PK.replace('EXERCISE#', '')));
+
+          const deleteCell = document.createElement('td');
+          deleteCell.appendChild(deleteButton);
+
+          tr.appendChild(deleteCell);
+          
           exercisesTableBody.appendChild(tr);
         });
       })
       .catch(error => console.error('Error fetching exercises:', error));
+  }
+
+  // Function to delete a workout plan
+  function deletePlan(planId) {
+    if (confirm('Are you sure you want to delete this plan and all its exercises?')) {
+      fetch(`${apiBaseUrl}/plans/${planId}`, {
+        method: 'DELETE',
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log(`Plan ${planId} deleted successfully`);
+          // Reload the plans
+          loadWorkoutPlans();
+          // Hide the exercises section if the deleted plan was selected
+          if (selectedPlanId === planId) {
+            selectedPlanId = null;
+            addExerciseSection.style.display = 'none';
+            exercisesListSection.style.display = 'none';
+          }
+        } else {
+          return response.text().then(text => {
+            throw new Error(`Error deleting plan: ${text}`);
+          });
+        }
+      })
+      .catch(error => console.error('Error deleting plan:', error));
+    }
   }
 
   // Function to generate a unique ID
