@@ -51,9 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
           li.appendChild(planButton);
           li.appendChild(deleteButton);
 
-        //   li.textContent = plan.name;
-        //   li.dataset.planId = plan.PK.replace('PLAN#', '');
-        //   li.addEventListener('click', () => selectPlan(li.dataset.planId, plan.name));
           plansUl.appendChild(li);
         });
       })
