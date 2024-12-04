@@ -3,23 +3,40 @@
 
 <head>
   <meta charset="utf-8">
-  <title>My Workouts - Weightlifting Workout Tracker</title>
-  <meta name="description" content="">
+  <title>Exercises - Weightlifting Workout Tracker</title>
+  <meta name="description" content="Explore exercises with tips and instructions.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <header>
-        <h1>Exercise Library</h1>
-    </header>
+  <header>
+    <h1>Exercise Library</h1>
+  </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="workouts.html">My Workouts</a></li>
-            <li><a href="progress.html">Progress</a></li>
-            <li><a href="exercises.html" class="active">Exercises</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="workouts.html">Workouts</a></li>
+      <li><a href="progress.html">Progress</a></li>
+      <li><a href="exercises.html" class="active">Exercises</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Available Exercises</h2>
+      <div id="exercise-list">
+        <!-- Exercise entries will be dynamically loaded here -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Weightlifting Workout Tracker</p>
+  </footer>
+
+  <script type="module" src="js/exercises.js"></script>
 </body>
+
+</html>
