@@ -161,24 +161,20 @@ document.addEventListener("DOMContentLoaded", function () {
             <td>${exercise.weight}</td>
             <td>${exercise.reps}</td>
             <td>${exercise.notes}</td>
-            <td><button class="delete-exercise-btn">Delete</button></td>
           `;
 
-          const deleteButton = tr.querySelector('.delete-exercise-btn');
-          deleteButton.addEventListener('click', () => {
-            const exerciseId = exercise.PK.replace('EXERCISE#', '');
-            deleteExercise(planId, exerciseId);
-          });
+          const deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Delete';
+          deleteButton.classList.add('delete-exercise-btn');
+          
+          const exerciseId = exercise.SK.replace('EXERCISE#', '');
 
-        //   const deleteButton = document.createElement('button');
-        //   deleteButton.textContent = 'Delete';
-        //   deleteButton.classList.add('delete-exercise-btn');
-        //   deleteButton.addEventListener('click', () => deleteExercise(planId, exercise.PK.replace('EXERCISE#', '')));
+          deleteButton.addEventListener('click', () => deleteExercise(planId, exerciseId));
 
-        //   const deleteCell = document.createElement('td');
-        //   deleteCell.appendChild(deleteButton);
+          const deleteCell = document.createElement('td');
+          deleteCell.appendChild(deleteButton);
 
-        //   tr.appendChild(deleteCell);
+          tr.appendChild(deleteCell);
 
           exercisesTableBody.appendChild(tr);
         });
