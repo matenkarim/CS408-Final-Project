@@ -46,19 +46,56 @@ nav ul {
 }
 
 nav ul li {
-  float: left;
+  margin: 0;
 }
 
 nav ul li a {
   display: block;
-  padding: 14px 20px;
-  color: #fff;
+  padding: 16px 24px;
+  color: #ffffff;
   text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
-nav ul li a:hover {
-  background-color: #575757;
+nav ul li a:hover,
+nav ul li a.active {
+  background-color: #18bc9c;
 }
+
+main {
+  padding: 40px 0;
+}
+
+main section {
+  background-color: #ffffff;
+  margin-bottom: 40px;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+main section h2 {
+  margin-top: 0;
+  font-size: 2em;
+  font-weight: 700;
+  color: #2c3e50; 
+  border-bottom: 2px solid #18bc9c;
+  padding-bottom: 10px;
+}
+
+main section p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+main section a.button {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+
 
 #plans-ul {
   list-style-type: none;
