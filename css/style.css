@@ -260,6 +260,13 @@ aside {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+aside h2 {
+  margin-top: 0;
+  font-size: 2em;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
 aside h3 {
   margin-top: 0;
   font-size: 1.8em;
@@ -271,6 +278,7 @@ aside ul {
   list-style-type: disc;
   padding-left: 20px;
   margin: 20px 0 0 0;
+  font-size: 1.2em;
 }
 
 aside ul li {
@@ -278,7 +286,11 @@ aside ul li {
   font-size: 1.1em;
 }
 
-/* Footer */
+aside ul li ul li {
+  margin-bottom: 10px;
+  font-size: 0.7em;
+}
+
 footer {
   background-color: #34495e;
   color: #ffffff;
@@ -392,4 +404,47 @@ textarea::placeholder {
 
 #exercise-list .exercise-item:hover {
   background-color: #f9f9f9;
+}
+
+#predefined-plans-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.plan {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 30%;
+  box-sizing: border-box;
+  min-height: 400px; /* Set a minimum height */
+}
+
+.plan h3 {
+  margin-top: 0;
+}
+
+.plan ul {
+  list-style-type: disc;
+  padding-left: 10px;
+}
+
+.plan button {
+  margin-top: 10px;
+}
+
+#tips-section h3 {
+  margin-top: 20px;
+}
+
+#tips-section ul {
+  list-style-type: disc;
+  margin-left: 0px;
+  padding-left: 30px;
+}
+
+#tips-section ul li {
+  margin-bottom: 20px;
 }

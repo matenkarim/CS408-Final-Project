@@ -1,5 +1,3 @@
-// const { log } = require("qunit");
-
 document.addEventListener("DOMContentLoaded", function () {
   const apiBaseUrl = 'https://tb63oflrmc.execute-api.us-east-2.amazonaws.com';
 
@@ -14,6 +12,104 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (document.getElementById('log-workout-button')) {
     initLogWorkoutPage();
+  }
+
+  if (document.getElementById('predefined-plans-section')) {
+    initExercisesPage();
+  }
+
+  // Function to initialize the Exercises Page
+  function initExercisesPage() {
+    const predefinedPlansContainer = document.getElementById('predefined-plans-container');
+
+    fetch('/predefined_plans.json')
+      .then(response => response.json())
+      .then(plans => {
+        plans.forEach(plan => {
+          const planDiv = document.createElement('div');
+          planDiv.classList.add('plan');
+
+          const planTitle = document.createElement('h3');
+          planTitle.textContent = plan.name;
+          planDiv.appendChild(planTitle);
+
+          const exercisesList = document.createElement('ul');
+          plan.exercises.forEach(exercise => {
+            const exerciseItem = document.createElement('li');
+            exerciseItem.textContent = `${exercise.name} - ${exercise.sets} sets x ${exercise.reps} reps ${exercise.notes ? '- ' + exercise.notes : ''}`;
+            exercisesList.appendChild(exerciseItem);
+          });
+          planDiv.appendChild(exercisesList);
+
+          const addButton = document.createElement('button');
+          addButton.textContent = 'Add to My Plans';
+          addButton.addEventListener('click', () => addPlanToUserPlans(plan));
+          planDiv.appendChild(addButton);
+
+          predefinedPlansContainer.appendChild(planDiv);
+        });
+      })
+      .catch(error => console.error('Error loading predefined plans:', error));
+  }
+
+  // Function to add a predefined plan to the user's plans
+  function addPlanToUserPlans(plan) {
+    const planId = generateUniqueId();
+    const newPlan = {
+      planId: planId,
+      name: plan.name
+    };
+
+    // First, add the plan
+    fetch(`${apiBaseUrl}/plans`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newPlan)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Plan added successfully');
+
+          // Then, add each exercise to the plan
+          plan.exercises.forEach(exercise => {
+            const exerciseId = generateUniqueId();
+            const newExercise = {
+              exerciseId: exerciseId,
+              name: exercise.name,
+              weight: 0, // Default weight
+              reps: exercise.reps,
+              notes: exercise.notes || ''
+            };
+
+            fetch(`${apiBaseUrl}/plans/${planId}/exercises`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(newExercise)
+            })
+              .then(res => {
+                if (res.ok) {
+                  console.log(`Exercise ${exercise.name} added to plan ${plan.name}`);
+                } else {
+                  return res.text().then(text => {
+                    throw new Error(`Error adding exercise: ${text}`);
+                  });
+                }
+              })
+              .catch(error => console.error('Error:', error));
+          });
+
+          alert(`Plan "${plan.name}" added to your plans.`);
+        } else {
+          return response.text().then(text => {
+            throw new Error(`Error adding plan: ${text}`);
+          });
+        }
+      })
+      .catch(error => console.error('Error:', error));
   }
 
   // Function to generate a unique ID
