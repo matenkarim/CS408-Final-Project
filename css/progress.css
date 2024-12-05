@@ -1,37 +1,154 @@
-/* Tab Styles */
-.tabs {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 20px;
-    border-bottom: 2px solid #0d47a1;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #e3f2fd; 
+    color: #0d47a1; 
 }
 
-.tabs button {
+.container {
+    width: 90%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+/* Header */
+header {
+    background-color: #1565c0;
+    padding: 20px 0;
+    color: #ffffff;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+/* Main Content */
+main {
+    margin-top: 30px;
+}
+
+main h2 {
+    color: #1565c0;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Form Elements */
+label {
+    font-size: 1em;
+    color: #0d47a1;
+    margin-right: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #0d47a1;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 20px;
+}
+
+/* Chart Container */
+#progress-chart-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+#progress-chart {
+    width: 100%;
+    height: auto;
+}
+
+/* Logged Workouts */
+#logged-workouts-container {
+    margin-top: 40px;
+}
+
+#logged-workouts-container h3 {
+    color: #1565c0;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+#logged-workouts-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #0d47a1;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 20px;
+}
+
+#workout-details h3 {
+    color: #0d47a1;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+#workout-details ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+#workout-details li {
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+
+/* Footer */
+footer {
     background-color: #1565c0;
     color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1em;
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    select {
+        width: 100%;
+    }
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #700000;
+}
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    display: block;
+    padding: 16px 24px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
     transition: background-color 0.3s ease;
 }
 
-.tabs button:hover {
-    background-color: #0d47a1;
-}
-
-.tabs button.active {
-    background-color: #0d47a1;
-    border-bottom: 2px solid #ffffff;
-}
-
-.tab-content {
-    display: none;
-    padding: 20px;
-    border: 1px solid #0d47a1;
-    border-top: none;
-}
-
-.tab-content.active {
-    display: block;
+nav ul li a:hover,
+nav ul li a.active {
+    background-color: #000000;
 }
