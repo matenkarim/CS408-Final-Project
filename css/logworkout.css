@@ -1,0 +1,168 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f3e5f5; 
+    color: #4a148c; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+/* Header */
+header {
+    background-color: #6a1b9a; 
+    color: #ffffff;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+main {
+    flex: 1; 
+    margin-top: 30px;
+}
+
+main h2 {
+    color: #6a1b9a;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Form Elements */
+label {
+    font-size: 1em;
+    color: #4a148c;
+    margin-right: 10px;
+}
+
+select,
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #4a148c;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 20px;
+}
+
+/* Exercises Container */
+#exercises-container {
+    margin-top: 20px;
+}
+
+.exercise-entry {
+    background-color: #ce93d8; 
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+}
+
+.exercise-entry h3 {
+    color: #6a1b9a;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.set-entry {
+    margin-bottom: 15px;
+}
+
+.set-entry h4 {
+    color: #4a148c;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.set-entry label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.set-entry input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #4a148c;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+/* Log Workout Button */
+#log-workout-button {
+    background-color: #6a1b9a;
+    color: #ffffff;
+    border: none;
+    padding: 15px 25px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block;
+    margin: 40px auto 20px auto;
+}
+
+#log-workout-button:hover {
+    background-color: #4a148c;
+}
+
+/* Footer */
+footer {
+    background-color: #6a1b9a;
+    color: #ffffff;
+    padding: 20px 0;
+    width: 100%;
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .set-entry input {
+        width: 100%;
+    }
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #700000;
+}
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    display: block;
+    padding: 16px 24px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    background-color: #000000;
+}

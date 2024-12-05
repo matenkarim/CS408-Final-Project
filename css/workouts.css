@@ -13,7 +13,7 @@ body {
 }
 
 header {
-  background-color: #2c3e50;
+  background-color: #023586;
   color: #ffffff;
   padding: 60px 0;
   text-align: center;
@@ -33,7 +33,7 @@ header img {
 }
 
 nav {
-  background-color: #34495e;
+  background-color: #000000;
 }
 
 nav ul {
@@ -60,7 +60,7 @@ nav ul li a {
 
 nav ul li a:hover,
 nav ul li a.active {
-  background-color: #18bc9c;
+  background-color: #700000;
 }
 
 main {
@@ -99,7 +99,7 @@ main section a.button {
 button,
 input[type="button"],
 input[type="submit"] {
-  background-color: #18bc9c;
+  background-color: #700000;
   color: #ffffff;
   padding: 12px 24px;
   border: none;
@@ -128,7 +128,7 @@ input[type="submit"]:active {
 
 .delete-plan-btn,
 .delete-exercise-btn {
-  background-color: #e74c3c;
+  background-color: #700000;
   color: #ffffff; 
   padding: 8px 12px;
   border: none;
@@ -141,7 +141,7 @@ input[type="submit"]:active {
 
 .delete-plan-btn:hover,
 .delete-exercise-btn:hover {
-  background-color: #c0392b;
+  background-color: #700000;
 }
 
 form {
@@ -196,7 +196,7 @@ table td {
 }
 
 table th {
-  background-color: #2c3e50;
+  background-color: #700000;
   color: #ffffff;
   font-weight: 700;
 }
@@ -271,7 +271,7 @@ aside h3 {
   margin-top: 0;
   font-size: 1.8em;
   font-weight: 700;
-  color: #2c3e50;
+  color: #700000;
 }
 
 aside ul {
@@ -334,7 +334,7 @@ footer p a:hover {
 
   nav ul li a {
     text-align: center;
-    border-bottom: 1px solid #2c3e50;
+    border-bottom: 1px solid #700000;
   }
 
   nav ul li a:last-child {
@@ -392,7 +392,7 @@ section#create-plan {
 
 #toggle-plans-button,
 #toggle-exercises-button {
-  background-color: #2c3e50; 
+  background-color: #700000; 
   color: #ffffff;
   margin-bottom: 20px;
 }
