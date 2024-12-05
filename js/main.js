@@ -1,3 +1,5 @@
+// const { log } = require("qunit");
+
 document.addEventListener("DOMContentLoaded", function () {
   const apiBaseUrl = 'https://tb63oflrmc.execute-api.us-east-2.amazonaws.com';
 
@@ -259,6 +261,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const workoutPlanSelect = document.getElementById('workout-plan-select');
     const exerciseSelect = document.getElementById('exercise-select');
     const progressChartCanvas = document.getElementById('progress-chart');
+    let progressChart;
+
+    
 
     // Load the workout plans
     fetch(`${apiBaseUrl}/plans`)
@@ -300,11 +305,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const selectedExerciseId = exerciseSelect.value;
 
       if (selectedPlanId && selectedExerciseId) {
-        fetch(`${apiBaseUrl}/workouts/${selectedPlanId}/progress/${selectedExerciseId}`)
+        fetch(`${apiBaseUrl}/plans/${selectedPlanId}/exercises/${selectedExerciseId}/progress`)
           .then(response => response.json())
           .then(data => {
+
+            // Sort data by date
+            data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
             const dates = data.map(entry => entry.date);
             const weights = data.map(entry => entry.weight);
+
             updateProgressChart(dates, weights);
           })
           .catch(error => console.error('Error fetching progress data:', error));
@@ -313,20 +323,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Set up the chart
     const ctx = progressChartCanvas.getContext('2d');
-    let progressChart = new Chart(ctx, {
+    progressChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: [],
         datasets: [{
-          label: 'Progression Over Time',
+          label: 'Weight Progression Over Time',
           data: [],
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 2,
-          fill: false
+          fill: false,
+          tension: 0.1
         }]
       },
       options: {
         responsive: true,
+        parsing: false,
         scales: {
           x: {
             type: 'time',
@@ -350,8 +362,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to update the chart with new data
     function updateProgressChart(dates, weights) {
-      progressChart.data.labels = dates;
-      progressChart.data.datasets[0].data = weights;
+      const dataPoints = dates.map((date, index) => ({
+        x: date,
+        y: weights[index],
+      }));
+  
+      progressChart.data.datasets[0].data = dataPoints;
       progressChart.update();
     }
   }
@@ -361,6 +377,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const workoutPlanSelect = document.getElementById('workout-plan-select');
     const workoutDateInput = document.getElementById('workout-date');
     const logWorkoutButton = document.getElementById('log-workout-button');
+    const exercisesContainer = document.getElementById('exercises-container');
 
     // Load the workout plans
     fetch(`${apiBaseUrl}/plans`)
@@ -375,43 +392,100 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch(error => console.error('Error fetching plans:', error));
 
-    // Add Log Workout Button Event Listener
-    logWorkoutButton.addEventListener('click', logWorkoutSession);
+  // When a plan is selected, load its exercises
+  workoutPlanSelect.addEventListener('change', function () {
+    const selectedPlanId = workoutPlanSelect.value;
+    exercisesContainer.innerHTML = '';
 
-    // Function to Log a Workout Session
-    function logWorkoutSession() {
-      const selectedPlanId = workoutPlanSelect.value;
-      const workoutDate = workoutDateInput.value;
+    if (selectedPlanId) {
+      fetch(`${apiBaseUrl}/plans/${selectedPlanId}/exercises`)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(exercise => {
+            const exerciseId = exercise.SK.replace('EXERCISE#', '');
 
-      if (!selectedPlanId || !workoutDate) {
-        alert('Please select a workout plan and a date.');
-        return;
-      }
+            const exerciseDiv = document.createElement('div');
+            exerciseDiv.classList.add('exercise-entry');
 
-      const newLog = {
-        date: workoutDate,
-        planId: selectedPlanId
-      };
+            exerciseDiv.innerHTML = `
+              <h3>${exercise.name}</h3>
+              <label for="weight-${exerciseId}">Weight (lbs):</label>
+              <input type="number" id="weight-${exerciseId}" min="0" required>
+              <label for="reps-${exerciseId}">Reps:</label>
+              <input type="number" id="reps-${exerciseId}" min="0" required>
+            `;
 
-      fetch(`${apiBaseUrl}/workouts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newLog)
-      })
-        .then(response => {
-          if (response.ok) {
-            console.log('Workout logged successfully');
-            workoutDateInput.value = '';
-            alert('Workout logged successfully.');
-          } else {
-            return response.text().then(text => {
-              throw new Error(`Error logging workout: ${text}`);
-            });
-          }
+            exercisesContainer.appendChild(exerciseDiv);
+          });
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error fetching exercises:', error));
+    }
+  });
+  
+  logWorkoutButton.addEventListener('click', logWorkoutSession);
+  
+  // Function to Log a Workout Session
+  function logWorkoutSession() {
+    const selectedPlanId = workoutPlanSelect.value;
+    const workoutDate = workoutDateInput.value;
+
+    if (!selectedPlanId || !workoutDate) {
+      alert('Please select a workout plan and a date.');
+      return;
+    }
+
+    const exercisesInputs = exercisesContainer.getElementsByClassName('exercise-entry');
+    const exercises = [];
+
+    for (let exerciseDiv of exercisesInputs) {
+      const exerciseName = exerciseDiv.querySelector('h3').textContent;
+      const weightInput = exerciseDiv.querySelector('input[id^="weight-"]');
+      const repsInput = exerciseDiv.querySelector('input[id^="reps-"]');
+
+      const weight = weightInput.value.trim();
+      const reps = repsInput.value.trim();
+      const exerciseId = weightInput.id.replace('weight-', '');
+
+      if (weight && reps) {
+        exercises.push({
+          exerciseId: exerciseId,
+          weight: parseFloat(weight),
+          reps: parseInt(reps, 10)
+        });
+      }
+    }
+
+    if (exercises.length === 0) {
+      alert('Please enter weight and reps for at least one exercise.');
+      return;
+    }
+
+    const newLog = {
+      planId: selectedPlanId,
+      date: workoutDate,
+      exercises: exercises,
+    };
+
+    fetch(`${apiBaseUrl}/workouts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newLog)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Workout logged successfully');
+          workoutDateInput.value = '';
+          exercisesContainer.innerHTML = '';
+          alert('Workout logged successfully.');
+        } else {
+          return response.text().then(text => {
+            throw new Error(`Error logging workout: ${text}`);
+          });
+        }
+      })
+      .catch(error => console.error('Error:', error));
     }
   }
 });

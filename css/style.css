@@ -95,88 +95,301 @@ main section a.button {
   margin-top: 10px;
 }
 
-
-
-#plans-ul {
-  list-style-type: none;
-  padding: 0;
+.button,
+button,
+input[type="button"],
+input[type="submit"] {
+  background-color: #18bc9c;
+  color: #ffffff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  text-decoration: none;
 }
 
-#plans-ul li {
+.button:hover,
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover {
+  background-color: #2c3e50; 
+  transform: translateY(-2px);
+}
+
+.button:active,
+button:active,
+input[type="button"]:active,
+input[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.delete-plan-btn,
+.delete-exercise-btn {
+  background-color: #e74c3c;
+  color: #ffffff; 
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.delete-plan-btn:hover,
+.delete-exercise-btn:hover {
+  background-color: #c0392b;
+}
+
+form {
+  margin-top: 20px;
+}
+
+label {
+  display: block;
   margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #18bc9c;
+  outline: none;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th,
+table td {
+  padding: 16px;
+  border: 1px solid #bdc3c7;
+  text-align: left;
+}
+
+table th {
+  background-color: #2c3e50;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+#plans-ul,
+#exercise-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#plans-ul li,
+#exercise-list .exercise-item {
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  padding: 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #plans-ul li button:first-child {
-  background-color: #4CAF50;
-  color: white;
-  padding: 8px 16px;
-  margin: 4px;
+  flex: 1;
+  background-color: transparent;
+  color: #2c3e50;
+  text-align: left;
+  padding: 0;
+  font-size: 1.2em;
+  font-weight: 600;
   border: none;
   cursor: pointer;
-  font-size: 16px;
 }
 
 #plans-ul li button:first-child:hover {
-  background-color: #45a049;
+  color: #18bc9c;
 }
 
-.delete-plan-btn {
-  background-color: #f44336;
-  color: white;
-  padding: 8px;
-  margin: 4px;
-  border: none;
-  cursor: pointer;
+#plans-ul li .delete-plan-btn {
+  margin-left: 20px;
 }
 
-.delete-plan-btn:hover {
-  background-color: #da190b;
+#exercise-list .exercise-item:hover {
+  background-color: #f9f9f9;
 }
 
-.delete-exercise-btn {
-  background-color: #f44336;
-  padding: 4px 8px;
-  border: none;
-  cursor: pointer;
+aside {
+  background-color: #ffffff;
+  padding: 30px;
+  margin-bottom: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.delete-exercise-btn:hover {
-  background-color: #da190b;
-}
-
-main {
-  padding: 20px;
-}
-
-main section {
-  background-color: #fff;
-  margin-bottom: 20px;
-  padding: 20px;
-}
-
-main section h2 {
+aside h3 {
   margin-top: 0;
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #2c3e50;
 }
 
+aside ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 20px 0 0 0;
+}
+
+aside ul li {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+/* Footer */
 footer {
-  background-color: #333;
-  color: #fff;
+  background-color: #34495e;
+  color: #ffffff;
   text-align: center;
-  padding: 10px 0;
+  padding: 20px 0;
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-  nav ul li {
-    float: none;
-    width: 100%;
+footer p {
+  margin: 5px 0;
+}
+
+footer p a {
+  color: #18bc9c;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+footer p a:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 992px) {
+  header h1 {
+    font-size: 2.5em;
+  }
+
+  main section {
+    padding: 30px;
+  }
+
+  nav ul li a {
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
   }
 
   nav ul li a {
     text-align: center;
+    border-bottom: 1px solid #2c3e50;
   }
 
-  header, main, footer {
-    padding: 10px;
+  nav ul li a:last-child {
+    border-bottom: none;
   }
+
+  main {
+    padding: 30px 0;
+  }
+
+  main section {
+    padding: 20px;
+  }
+
+  aside {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  header h1 {
+    font-size: 2em;
+  }
+
+  .button,
+  button,
+  input[type="button"],
+  input[type="submit"] {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  #plans-ul li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #plans-ul li .delete-plan-btn {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+section#add-exercise,
+section#log-workout-section,
+section#create-plan {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+#toggle-plans-button,
+#toggle-exercises-button {
+  background-color: #2c3e50; 
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #bdc3c7;
+}
+
+#exercise-list .exercise-item:hover {
+  background-color: #f9f9f9;
 }

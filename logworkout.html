@@ -28,6 +28,7 @@
     <div class="container">
       <section id="log-workout-section">
         <h2>Log a Workout Session</h2>
+
         <label for="workout-plan-select">Select Workout Plan:</label>
         <select id="workout-plan-select">
           <option value="">Select Plan</option>
@@ -35,6 +36,10 @@
 
         <label for="workout-date">Date:</label>
         <input type="date" id="workout-date" required>
+
+        <div id="exercises-container">
+            <!-- Exercise entries will be dynamically loaded here -->
+        </div>
 
         <button id="log-workout-button">Log Workout</button>
       </section>
