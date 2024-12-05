@@ -357,9 +357,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const workoutPlanSelect = document.getElementById('workout-plan-select');
     const exerciseSelect = document.getElementById('exercise-select');
     const progressChartCanvas = document.getElementById('progress-chart');
+    const loggedWorkoutsContainer = document.getElementById('logged-workouts-container');
     let progressChart;
-
-    
 
     // Load the workout plans
     fetch(`${apiBaseUrl}/plans`)
@@ -434,7 +433,6 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       options: {
         responsive: true,
-        parsing: false,
         scales: {
           x: {
             type: 'time',
@@ -465,6 +463,98 @@ document.addEventListener("DOMContentLoaded", function () {
   
       progressChart.data.datasets[0].data = dataPoints;
       progressChart.update();
+    }
+
+      // When an exercise is selected, fetch progress data and logged workouts
+  exerciseSelect.addEventListener('change', function () {
+    const selectedPlanId = workoutPlanSelect.value;
+    const selectedExerciseId = exerciseSelect.value;
+
+    if (selectedPlanId && selectedExerciseId) {
+      fetchProgressData(selectedPlanId, selectedExerciseId);
+      fetchLoggedWorkouts(selectedPlanId, selectedExerciseId);
+    }
+  });
+
+  // Function to fetch and display progress data
+  function fetchProgressData(planId, exerciseId) {
+    fetch(`${apiBaseUrl}/plans/${planId}/exercises/${exerciseId}/progress`)
+      .then(response => response.json())
+      .then(data => {
+        // ... existing code to process and display chart ...
+      })
+      .catch(error => console.error('Error fetching progress data:', error));
+  }
+
+  // Function to fetch and display logged workouts
+  function fetchLoggedWorkouts(planId, exerciseId) {
+    fetch(`${apiBaseUrl}/plans/${planId}/exercises/${exerciseId}/workouts`)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Logged workouts fetched:', data);
+
+        // Clear previous content
+        loggedWorkoutsContainer.innerHTML = '';
+
+        // Check if there are any logged workouts
+        if (data.length === 0) {
+          loggedWorkoutsContainer.textContent = 'No logged workouts found for this exercise.';
+          return;
+        }
+
+        // Create a select element to choose a workout
+        const workoutSelect = document.createElement('select');
+        workoutSelect.id = 'workout-select';
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Select a Workout Date';
+        workoutSelect.appendChild(defaultOption);
+
+        // Populate the select options with workout dates
+        data.forEach(workout => {
+          const option = document.createElement('option');
+          option.value = workout.date;
+          option.textContent = workout.date;
+          workoutSelect.appendChild(option);
+        });
+
+        loggedWorkoutsContainer.appendChild(workoutSelect);
+
+        // Create a container to display workout details
+        const workoutDetailsDiv = document.createElement('div');
+        workoutDetailsDiv.id = 'workout-details';
+        loggedWorkoutsContainer.appendChild(workoutDetailsDiv);
+
+        // Add event listener for workout selection
+        workoutSelect.addEventListener('change', function () {
+          const selectedDate = workoutSelect.value;
+          if (selectedDate) {
+            const selectedWorkout = data.find(workout => workout.date === selectedDate);
+            displayWorkoutDetails(selectedWorkout);
+          } else {
+            workoutDetailsDiv.innerHTML = '';
+          }
+        });
+
+        // Function to display workout details
+        function displayWorkoutDetails(workout) {
+          workoutDetailsDiv.innerHTML = '';
+
+          const workoutDate = document.createElement('h3');
+          workoutDate.textContent = `Workout Date: ${workout.date}`;
+          workoutDetailsDiv.appendChild(workoutDate);
+
+          const setsList = document.createElement('ul');
+          workout.sets.forEach(set => {
+            const setItem = document.createElement('li');
+            setItem.textContent = `Set ${set.setNumber}: Weight - ${set.weight} lbs, Reps - ${set.reps}`;
+            setsList.appendChild(setItem);
+          });
+          workoutDetailsDiv.appendChild(setsList);
+        }
+      })
+      .catch(error => console.error('Error fetching logged workouts:', error));
     }
   }
 
