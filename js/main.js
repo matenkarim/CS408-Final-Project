@@ -672,7 +672,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => {
           if (response.ok) {
             console.log(`Workout for exercise ${exerciseName} logged successfully`);
-            // Optionally, reset input fields for this exercise if needed
           } else {
             return response.text().then(text => {
               throw new Error(`Error logging workout for ${exerciseName}: ${text}`);
@@ -681,8 +680,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error('Error:', error));
     }
-  
-    // After logging all exercises, reset the form and display a success message
+
     workoutDateInput.value = '';
     exercisesContainer.innerHTML = '';
     alert('Workout logged successfully.');
