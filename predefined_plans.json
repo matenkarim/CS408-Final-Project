@@ -1,73 +1,72 @@
 [
-    {
-      "planId": "chest-tri",
-      "name": "Chest + Tri",
-      "exercises": [
-        { "name": "Machine Press", "sets": 3, "reps": "12-15", "notes": "(optional)" },
-        { "name": "Bench Press", "sets": 3, "reps": "6-9" },
-        { "name": "Incline Dumbbell Smith Machine", "sets": 4, "reps": "10-15" },
-        { "name": "Cable Flies", "sets": 4, "reps": "10-15" },
-        { "name": "Overhead Cable Extensions", "sets": 3, "reps": "8-12" },
-        { "name": "Tricep Cable Extensions", "sets": 3, "reps": "8-12" }
-      ]
-    },
-    {
-      "planId": "back-bi",
-      "name": "Back + Bi",
-      "exercises": [
-        { "name": "Pull Ups", "sets": 3, "reps": "Failure" },
-        { "name": "Lat Pulldown", "sets": 4, "reps": "8-12" },
-        { "name": "Barbell Rows", "sets": 3, "reps": "8-12" },
-        { "name": "EZ Bar Curl", "sets": 4, "reps": "10-15" },
-        { "name": "Dumbbell Curls", "sets": 3, "reps": "10-15", "notes": "(last set to failure)" }
-      ]
-    },
-    {
-      "planId": "legs",
-      "name": "Legs",
-      "exercises": [
-        { "name": "Seated Hamstring Curls", "sets": 4, "reps": "10-15" },
-        { "name": "Smith Machine Squat", "sets": 3, "reps": "6-10" },
-        { "name": "Romanian Deadlifts (RDLs)", "sets": 3, "reps": "8-12" },
-        { "name": "Quad Extensions", "sets": 4, "reps": "10-15" },
-        { "name": "Calf Raises", "sets": 4, "reps": "Failure" }
-      ]
-    },
-    {
-      "planId": "shoulders",
-      "name": "Shoulders",
-      "exercises": [
-        { "name": "Dumbbell Press", "sets": 3, "reps": "8-12" },
-        { "name": "Seated Incline Lateral Raises", "sets": 3, "reps": "8-12", "notes": "Superset with standing lateral raises to failure" },
-        { "name": "Cable Lateral Raises", "sets": 4, "reps": "10-15" },
-        { "name": "Face Pulls", "sets": 4, "reps": "8-12" },
-        { "name": "Rear Delt Cable Fly", "sets": 4, "reps": "8-12" },
-        { "name": "Shoulder Shrugs", "sets": 3, "reps": "8-12", "notes": "(optional)" }
-      ]
-    },
-    {
-      "planId": "upper-body",
-      "name": "Upper Body",
-      "exercises": [
-        { "name": "Bench Press", "sets": 3, "reps": "6-8" },
-        { "name": "Pull Ups", "sets": 3, "reps": "Failure" },
-        { "name": "Overhead Press", "sets": 3, "reps": "8-10" },
-        { "name": "Bent Over Rows", "sets": 3, "reps": "8-12" },
-        { "name": "Bicep Curls", "sets": 3, "reps": "10-15" },
-        { "name": "Tricep Dips", "sets": 3, "reps": "Failure" }
-      ]
-    },
-    {
-      "planId": "lower-body",
-      "name": "Lower Body",
-      "exercises": [
-        { "name": "Squats", "sets": 3, "reps": "6-8" },
-        { "name": "Deadlifts", "sets": 3, "reps": "6-8" },
-        { "name": "Lunges", "sets": 3, "reps": "10-12" },
-        { "name": "Leg Press", "sets": 4, "reps": "8-12" },
-        { "name": "Hamstring Curls", "sets": 4, "reps": "10-15" },
-        { "name": "Calf Raises", "sets": 4, "reps": "Failure" }
-      ]
-    }
-  ]
-  
+  {
+    "planId": "chest-tri",
+    "name": "Chest + Tri",
+    "exercises": [
+      { "name": "Machine Press", "sets": 3, "reps": "12-15", "notes": "(optional)" },
+      { "name": "Bench Press", "sets": 3, "reps": "6-9" },
+      { "name": "Incline Dumbbell Smith Machine", "sets": 4, "reps": "10-15" },
+      { "name": "Cable Flies", "sets": 4, "reps": "10-15" },
+      { "name": "Overhead Cable Extensions", "sets": 3, "reps": "8-12" },
+      { "name": "Tricep Cable Extensions", "sets": 3, "reps": "8-12" }
+    ]
+  },
+  {
+    "planId": "back-bi",
+    "name": "Back + Bi",
+    "exercises": [
+      { "name": "Pull Ups", "sets": 3, "reps": "Failure" },
+      { "name": "Lat Pulldown", "sets": 4, "reps": "8-12" },
+      { "name": "Barbell Rows", "sets": 3, "reps": "8-12" },
+      { "name": "EZ Bar Curl", "sets": 4, "reps": "10-15" },
+      { "name": "Dumbbell Curls", "sets": 3, "reps": "10-15", "notes": "(last set to failure)" }
+    ]
+  },
+  {
+    "planId": "legs",
+    "name": "Legs",
+    "exercises": [
+      { "name": "Seated Hamstring Curls", "sets": 4, "reps": "10-15" },
+      { "name": "Smith Machine Squat", "sets": 3, "reps": "6-10" },
+      { "name": "Romanian Deadlifts (RDLs)", "sets": 3, "reps": "8-12" },
+      { "name": "Quad Extensions", "sets": 4, "reps": "10-15" },
+      { "name": "Calf Raises", "sets": 4, "reps": "Failure" }
+    ]
+  },
+  {
+    "planId": "shoulders",
+    "name": "Shoulders",
+    "exercises": [
+      { "name": "Dumbbell Press", "sets": 3, "reps": "8-12" },
+      { "name": "Seated Incline Lateral Raises", "sets": 3, "reps": "8-12", "notes": "Superset with standing lateral raises to failure" },
+      { "name": "Cable Lateral Raises", "sets": 4, "reps": "10-15" },
+      { "name": "Face Pulls", "sets": 4, "reps": "8-12" },
+      { "name": "Rear Delt Cable Fly", "sets": 4, "reps": "8-12" },
+      { "name": "Shoulder Shrugs", "sets": 3, "reps": "8-12", "notes": "(optional)" }
+    ]
+  },
+  {
+    "planId": "upper-body",
+    "name": "Upper Body",
+    "exercises": [
+      { "name": "Bench Press", "sets": 3, "reps": "6-8" },
+      { "name": "Pull Ups", "sets": 3, "reps": "Failure" },
+      { "name": "Overhead Press", "sets": 3, "reps": "8-10" },
+      { "name": "Bent Over Rows", "sets": 3, "reps": "8-12" },
+      { "name": "Bicep Curls", "sets": 3, "reps": "10-15" },
+      { "name": "Tricep Dips", "sets": 3, "reps": "Failure" }
+    ]
+  },
+  {
+    "planId": "lower-body",
+    "name": "Lower Body",
+    "exercises": [
+      { "name": "Squats", "sets": 3, "reps": "6-8" },
+      { "name": "Deadlifts", "sets": 3, "reps": "6-8" },
+      { "name": "Lunges", "sets": 3, "reps": "10-12" },
+      { "name": "Leg Press", "sets": 4, "reps": "8-12" },
+      { "name": "Hamstring Curls", "sets": 4, "reps": "10-15" },
+      { "name": "Calf Raises", "sets": 4, "reps": "Failure" }
+    ]
+  }
+]

@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const newExercise = {
               exerciseId: exerciseId,
               name: exercise.name,
-              weight: 0, // Default weight
+              sets: parseInt(exercise.sets, 10) || 0,
               reps: exercise.reps,
               notes: exercise.notes || ''
             };
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedPlanNameSpan = document.getElementById('selected-plan-name');
     const selectedPlanNameSpan2 = document.getElementById('selected-plan-name-2');
     const exerciseNameInput = document.getElementById('exercise-name');
-    const exerciseWeightInput = document.getElementById('exercise-weight');
+    const exerciseSetsInput = document.getElementById('exercise-sets');
     const exerciseRepsInput = document.getElementById('exercise-reps');
     const exerciseNotesInput = document.getElementById('exercise-notes');
     const addExerciseButton = document.getElementById('add-exercise-button');
@@ -221,12 +221,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to add an exercise to the selected plan
     function addExerciseToPlan() {
       const exerciseName = exerciseNameInput.value.trim();
-      const weight = exerciseWeightInput.value.trim();
+      const sets = exerciseSetsInput.value.trim();
       const reps = exerciseRepsInput.value.trim();
       const notes = exerciseNotesInput.value.trim();
 
-      if (!exerciseName || !weight || !reps) {
-        alert('Exercise Name, Weight, and Reps are required.');
+      if (!exerciseName || !sets || !reps) {
+        alert('Exercise Name, Sets, and Reps are required.');
         return;
       }
 
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const newExercise = {
         exerciseId: exerciseId,
         name: exerciseName,
-        weight: parseFloat(weight),
+        sets: parseInt(sets, 10),
         reps: parseInt(reps, 10),
         notes: notes
       };
@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (response.ok) {
             console.log('Exercise added successfully');
             exerciseNameInput.value = '';
-            exerciseWeightInput.value = '';
+            exerciseSetsInput.value = '';
             exerciseRepsInput.value = '';
             exerciseNotesInput.value = '';
             loadExercisesForPlan(selectedPlanId);
@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const tr = document.createElement('tr');
             tr.innerHTML = `
               <td>${exercise.name}</td>
-              <td>${exercise.weight}</td>
+              <td>${exercise.sets}</td>
               <td>${exercise.reps}</td>
               <td>${exercise.notes}</td>
             `;
@@ -593,13 +593,24 @@ document.addEventListener("DOMContentLoaded", function () {
             const exerciseDiv = document.createElement('div');
             exerciseDiv.classList.add('exercise-entry');
 
-            exerciseDiv.innerHTML = `
-              <h3>${exercise.name}</h3>
-              <label for="weight-${exerciseId}">Weight (lbs):</label>
-              <input type="number" id="weight-${exerciseId}" min="0" required>
-              <label for="reps-${exerciseId}">Reps:</label>
-              <input type="number" id="reps-${exerciseId}" min="0" required>
-            `;
+            const exerciseTitle = document.createElement('h3');
+            exerciseTitle.textContent = exercise.name;
+            exerciseDiv.appendChild(exerciseTitle);
+
+            for (let i = 1; i <= exercise.sets; i++) {
+              const setDiv = document.createElement('div');
+              setDiv.classList.add('set-entry');
+
+              setDiv.innerHTML = `
+                <h4>Set ${i}</h4>
+                <label for="weight-${exerciseId}-${i}">Weight (lbs):</label>
+                <input type="number" id="weight-${exerciseId}-${i}" min="0" required>
+                <label for="reps-${exerciseId}-${i}">Reps:</label>
+                <input type="number" id="reps-${exerciseId}-${i}" min="0" required>
+              `;
+
+              exerciseDiv.appendChild(setDiv);
+            }
 
             exercisesContainer.appendChild(exerciseDiv);
           });
@@ -625,25 +636,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
     for (let exerciseDiv of exercisesInputs) {
       const exerciseName = exerciseDiv.querySelector('h3').textContent;
-      const weightInput = exerciseDiv.querySelector('input[id^="weight-"]');
-      const repsInput = exerciseDiv.querySelector('input[id^="reps-"]');
+      const exerciseId = exerciseDiv.querySelector('input[id^="weight-"]').id.split('-')[1];
 
-      const weight = weightInput.value.trim();
-      const reps = repsInput.value.trim();
-      const exerciseId = weightInput.id.replace('weight-', '');
+      const sets = [];
 
-      if (weight && reps) {
-        exercises.push({
-          exerciseId: exerciseId,
-          weight: parseFloat(weight),
-          reps: parseInt(reps, 10)
-        });
+      const setEntries = exerciseDiv.getElementsByClassName('set-entry');
+      for (let setDiv of setEntries) { 
+        const weightInput = setDiv.querySelector('input[id^="weight-"]');
+        const repsInput = setDiv.querySelector('input[id^="reps-"]');
+
+        const weight = weightInput.value.trim();
+        const reps = repsInput.value.trim();
+
+        if (weight && reps) {
+          sets.push({
+            weight: parseFloat(weight),
+            reps: parseInt(reps, 10)
+          });
+        } else {
+          alert('Please enter weight and reps for all sets.');
+          return;
+        }
       }
-    }
 
-    if (exercises.length === 0) {
-      alert('Please enter weight and reps for at least one exercise.');
-      return;
+      exercises.push({
+        exerciseId: exerciseId,
+        exerciseName: exerciseName,
+        sets: sets
+      });
     }
 
     const newLog = {
