@@ -620,34 +620,31 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   
   logWorkoutButton.addEventListener('click', logWorkoutSession);
-  
-  // Function to Log a Workout Session
   function logWorkoutSession() {
     const selectedPlanId = workoutPlanSelect.value;
     const workoutDate = workoutDateInput.value;
-
+  
     if (!selectedPlanId || !workoutDate) {
       alert('Please select a workout plan and a date.');
       return;
     }
-
+  
     const exercisesInputs = exercisesContainer.getElementsByClassName('exercise-entry');
-    const exercises = [];
-
+  
     for (let exerciseDiv of exercisesInputs) {
       const exerciseName = exerciseDiv.querySelector('h3').textContent;
       const exerciseId = exerciseDiv.querySelector('input[id^="weight-"]').id.split('-')[1];
-
+  
       const sets = [];
-
+  
       const setEntries = exerciseDiv.getElementsByClassName('set-entry');
-      for (let setDiv of setEntries) { 
+      for (let setDiv of setEntries) {
         const weightInput = setDiv.querySelector('input[id^="weight-"]');
         const repsInput = setDiv.querySelector('input[id^="reps-"]');
-
+  
         const weight = weightInput.value.trim();
         const reps = repsInput.value.trim();
-
+  
         if (weight && reps) {
           sets.push({
             weight: parseFloat(weight),
@@ -658,40 +655,37 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
       }
-
-      exercises.push({
-        exerciseId: exerciseId,
-        exerciseName: exerciseName,
-        sets: sets
-      });
-    }
-
-    const newLog = {
-      planId: selectedPlanId,
-      date: workoutDate,
-      exercises: exercises,
-    };
-
-    fetch(`${apiBaseUrl}/workouts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newLog)
-    })
-      .then(response => {
-        if (response.ok) {
-          console.log('Workout logged successfully');
-          workoutDateInput.value = '';
-          exercisesContainer.innerHTML = '';
-          alert('Workout logged successfully.');
-        } else {
-          return response.text().then(text => {
-            throw new Error(`Error logging workout: ${text}`);
-          });
-        }
+  
+      const newLog = {
+        date: workoutDate,
+        sets: sets,
+      };
+  
+      // Post to the new endpoint
+      fetch(`${apiBaseUrl}/plans/${selectedPlanId}/exercises/${exerciseId}/workouts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newLog)
       })
-      .catch(error => console.error('Error:', error));
+        .then(response => {
+          if (response.ok) {
+            console.log(`Workout for exercise ${exerciseName} logged successfully`);
+            // Optionally, reset input fields for this exercise if needed
+          } else {
+            return response.text().then(text => {
+              throw new Error(`Error logging workout for ${exerciseName}: ${text}`);
+            });
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  
+    // After logging all exercises, reset the form and display a success message
+    workoutDateInput.value = '';
+    exercisesContainer.innerHTML = '';
+    alert('Workout logged successfully.');
     }
   }
 });
